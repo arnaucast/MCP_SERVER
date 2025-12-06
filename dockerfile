@@ -12,7 +12,7 @@ RUN curl -L -o toolbox https://storage.googleapis.com/genai-toolbox/v${VERSION}/
 
 # Copiar archivos de configuración
 COPY tools.yaml ./tools.yaml
-COPY dummy_Db.sqlite ./dummy_Db.sqlite
+COPY dummy_db.sqlite ./dummy_db.sqlite
 
 # Exponer puerto
 EXPOSE 5000

@@ -1,0 +1,27 @@
+# Definición de la Fuente de Datos (Sources)
+sources:
+  # Nombre de la fuente (usado para referenciar en las herramientas)
+  my-sqlite-db:
+    kind: sqlite
+    # Ruta al archivo de base de datos que creamos
+    database: dummy_db.sqlite
+
+# Definición de las Herramientas (Tools) que el agente puede llamar
+tools:
+  # Herramienta 1: Buscar usuarios por departamento
+  search_users_by_department:
+    kind: sqlite-sql
+    source: my-sqlite-db
+    description: Busca usuarios por departamento y devuelve sus nombres y salarios. Útil para análisis de recursos humanos.
+    statement: "SELECT name, salary FROM users WHERE department = ?"
+    parameters:
+      - name: department
+        type: string
+        description: Nombre del departamento (ej. 'HR' o 'Engineering').
+
+  # Herramienta 2: Obtener el catálogo (metadata) de la BD
+  get_db_catalog:
+    kind: sqlite-sql
+    source: my-sqlite-db
+    description: Devuelve el esquema completo de todas las tablas y columnas.
+    statement: "SELECT name, sql FROM sqlite_master WHERE type='table'"

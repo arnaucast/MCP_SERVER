@@ -1,5 +1,4 @@
 FROM debian:bullseye-slim
-
 WORKDIR /app
 
 # Instalar curl
@@ -14,8 +13,11 @@ RUN curl -L -o toolbox https://storage.googleapis.com/genai-toolbox/v${VERSION}/
 COPY tools.yaml ./tools.yaml
 COPY dummy_db.sqlite ./dummy_db.sqlite
 
-# Exponer puerto
-EXPOSE 5000
+# Variable de entorno por defecto (Render la sobrescribirá)
+ENV PORT=5000
 
-# Ejecutar toolbox
-CMD ["./toolbox", "--tools-file", "tools.yaml", "--port", "5000", "--host", "0.0.0.0"]
+# Exponer puerto
+EXPOSE ${PORT}
+
+# Ejecutar toolbox usando la variable PORT con logs de debug
+CMD sh -c 'echo "Starting toolbox on port $PORT" && ./toolbox --tools-file tools.yaml --port ${PORT} --host 0.0.0.0'
